@@ -44,9 +44,6 @@ getToken(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET).then(
           return;
         }
         console.log(episodes.items[0]);
-        const client = new WebhookClient({
-          url: process.env.DISCORD_WEBHOOK_URL,
-        });
         if (existsSync("./lastCheckedId")) {
           const lastId = readFileSync("./lastCheckedId", "utf8");
           console.log(
@@ -59,9 +56,22 @@ getToken(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET).then(
             return;
           }
         }
-        client.send({
-          content: `${episodes.items[0].name}\n\n${episodes.items[0].description}\n\n${episodes.items[0].external_urls.spotify}`,
-        });
+        let webhookUrls = process.env.DISCORD_WEBHOOK_URLS.split(",");
+        let pingEveryones = process.env.PING_EVERYONE.split(",");
+        for (let i = 0; i < webhookUrls.length; i++) {
+          const client = new WebhookClient({
+            url: webhookUrls[i],
+          });
+          if (pingEveryones[i].toLowerCase() == "true") {
+            client.send({
+              content: `@everyone\n\n${episodes.items[0].name}\n\n${episodes.items[0].description}\n\n${episodes.items[0].external_urls.spotify}`,
+            });
+          } else {
+            client.send({
+              content: `${episodes.items[0].name}\n\n${episodes.items[0].description}\n\n${episodes.items[0].external_urls.spotify}`,
+            });
+          }
+        }
         writeFileSync("./lastCheckedId", episodes.items[0].id);
       },
     );
