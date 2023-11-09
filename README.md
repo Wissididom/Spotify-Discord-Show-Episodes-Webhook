@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-NodeJS v18+ (because I use inbuilt fetch without any fetch-library). It probably works if you install and import `node-fetch-commonjs` (`npm i node-fetch-commonjs` and `const fetch = require('node-fetch-commonjs');`) but I have not tested that and therefore it is not supported.
+NodeJS v18+
 
 ## How to setup
 
@@ -24,4 +24,4 @@ Install dependencies
 
 ### Step 4
 
-Run it with `node index.js` or specify it to run as a cronjob every 24h. The script ONLY checks once if there were clips made in the last 24h. It does NOT run itself every 24h.
+Run it with `node index.js` or specify it to run as a cronjob every 24h. The script ONLY checks once if the latest episode of a show was not already posted. If it wasn't it post it to Discord, else it just prints it to console including the info why it didn't post it to Discord. It does NOT run itself every 24h.
