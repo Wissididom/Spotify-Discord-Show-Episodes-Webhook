@@ -49,7 +49,7 @@ getToken(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET).then(
           console.log(
             `Last ID: ${lastId}; Current ID: ${episodes.items[0].id}`,
           );
-          if (lastId == episodes.items[0].id) {
+          if (lastId.trim() == episodes.items[0].id) {
             console.log(
               `Not posting because the ID ${episodes.items[0].id} was already posted the last time, the script was run!`,
             );
