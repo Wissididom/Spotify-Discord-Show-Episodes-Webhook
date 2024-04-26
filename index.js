@@ -1,8 +1,6 @@
+import "dotenv/config";
 import { WebhookClient } from "discord.js";
-import * as DotEnv from "dotenv";
 import { existsSync, readFileSync, writeFileSync } from "fs";
-
-DotEnv.config();
 
 async function getToken(clientId, clientSecret) {
   const response = await fetch("https://accounts.spotify.com/api/token", {
