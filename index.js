@@ -35,8 +35,14 @@ async function getShowEpisodes(accessToken, showId) {
 }
 
 async function checkForNewEpisodes() {
-  let response = await getToken(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
-  let showEpisodes = await getShowEpisodes(response.access_token, process.env.SPOTIFY_SHOW_ID);
+  let response = await getToken(
+    process.env.SPOTIFY_CLIENT_ID,
+    process.env.SPOTIFY_CLIENT_SECRET,
+  );
+  let showEpisodes = await getShowEpisodes(
+    response.access_token,
+    process.env.SPOTIFY_SHOW_ID,
+  );
   if (showEpisodes.items.length < 1) {
     console.log("No Item found");
     return;
@@ -44,9 +50,7 @@ async function checkForNewEpisodes() {
   console.log(showEpisodes.items[0]);
   if (existsSync("./lastCheckedId")) {
     const lastId = readFileSync("./lastCheckedId", "utf8");
-    console.log(
-      `Last ID: ${lastId}; Current ID: ${showEpisodes.items[0].id}`,
-    );
+    console.log(`Last ID: ${lastId}; Current ID: ${showEpisodes.items[0].id}`);
     if (lastId.trim() == showEpisodes.items[0].id) {
       console.log(
         `Not posting because the ID ${showEpisodes.items[0].id} was already posted the last time, the script was run!`,
@@ -74,10 +78,13 @@ async function checkForNewEpisodes() {
 }
 
 console.log(`Schedule worker for cron "${process.env.SPOTIFY_CRON}"`);
-schedule(process.env.SPOTIFY_CRON, async () => {
-  await checkForNewEpisodes();
-},
-{
-  scheduled: true,
-  timezone: process.env.SPOTIFY_TIMEZONE
-});
+schedule(
+  process.env.SPOTIFY_CRON,
+  async () => {
+    await checkForNewEpisodes();
+  },
+  {
+    scheduled: true,
+    timezone: process.env.SPOTIFY_TIMEZONE,
+  },
+);
