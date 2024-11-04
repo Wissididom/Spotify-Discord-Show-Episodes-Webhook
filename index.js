@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { WebhookClient } from "discord.js";
 import { existsSync, readFileSync, writeFileSync } from "fs";
+import { schedule } from "node-cron";
 
 async function getToken(clientId, clientSecret) {
   const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -33,45 +34,50 @@ async function getShowEpisodes(accessToken, showId) {
   return await response.json();
 }
 
-getToken(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET).then(
-  (response) => {
-    getShowEpisodes(response.access_token, process.env.SPOTIFY_SHOW_ID).then(
-      async (episodes) => {
-        if (episodes.items.length < 1) {
-          console.log("No Item found");
-          return;
-        }
-        console.log(episodes.items[0]);
-        if (existsSync("./lastCheckedId")) {
-          const lastId = readFileSync("./lastCheckedId", "utf8");
-          console.log(
-            `Last ID: ${lastId}; Current ID: ${episodes.items[0].id}`,
-          );
-          if (lastId.trim() == episodes.items[0].id) {
-            console.log(
-              `Not posting because the ID ${episodes.items[0].id} was already posted the last time, the script was run!`,
-            );
-            return;
-          }
-        }
-        let webhookUrls = process.env.DISCORD_WEBHOOK_URLS.split(",");
-        let pingEveryones = process.env.PING_EVERYONE.split(",");
-        for (let i = 0; i < webhookUrls.length; i++) {
-          const client = new WebhookClient({
-            url: webhookUrls[i],
-          });
-          if (pingEveryones[i].toLowerCase() == "true") {
-            client.send({
-              content: `@everyone\n\n${episodes.items[0].name}\n\n${episodes.items[0].description}\n\n${episodes.items[0].external_urls.spotify}`,
-            });
-          } else {
-            client.send({
-              content: `${episodes.items[0].name}\n\n${episodes.items[0].description}\n\n${episodes.items[0].external_urls.spotify}`,
-            });
-          }
-        }
-        writeFileSync("./lastCheckedId", episodes.items[0].id);
-      },
+async function checkForNewEpisodes() {
+  let response = await getToken(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
+  let showEpisodes = await getShowEpisodes(response.access_token, process.env.SPOTIFY_SHOW_ID);
+  if (showEpisodes.items.length < 1) {
+    console.log("No Item found");
+    return;
+  }
+  console.log(showEpisodes.items[0]);
+  if (existsSync("./lastCheckedId")) {
+    const lastId = readFileSync("./lastCheckedId", "utf8");
+    console.log(
+      `Last ID: ${lastId}; Current ID: ${showEpisodes.items[0].id}`,
     );
-  },
-);
+    if (lastId.trim() == showEpisodes.items[0].id) {
+      console.log(
+        `Not posting because the ID ${showEpisodes.items[0].id} was already posted the last time, the script was run!`,
+      );
+      return;
+    }
+  }
+  let webhookUrls = process.env.DISCORD_WEBHOOK_URLS.split(",");
+  let pingEveryones = process.env.PING_EVERYONE.split(",");
+  for (let i = 0; i < webhookUrls.length; i++) {
+    const client = new WebhookClient({
+      url: webhookUrls[i],
+    });
+    if (pingEveryones[i].toLowerCase() == "true") {
+      client.send({
+        content: `@everyone\n\n${showEpisodes.items[0].name}\n\n${showEpisodes.items[0].description}\n\n${showEpisodes.items[0].external_urls.spotify}`,
+      });
+    } else {
+      client.send({
+        content: `${showEpisodes.items[0].name}\n\n${showEpisodes.items[0].description}\n\n${showEpisodes.items[0].external_urls.spotify}`,
+      });
+    }
+  }
+  writeFileSync("./lastCheckedId", showEpisodes.items[0].id);
+}
+
+console.log(`Schedule worker for cron "${process.env.SPOTIFY_CRON}"`);
+schedule(process.env.SPOTIFY_CRON, async () => {
+  await checkForNewEpisodes();
+},
+{
+  scheduled: true,
+  timezone: process.env.SPOTIFY_TIMEZONE
+});
