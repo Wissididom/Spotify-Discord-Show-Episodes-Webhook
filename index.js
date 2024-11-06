@@ -85,6 +85,6 @@ schedule(
   },
   {
     scheduled: true,
-    timezone: process.env.SPOTIFY_TIMEZONE,
+    timezone: process.env.SPOTIFY_CRON_TIMEZONE,
   },
 );
