@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-NodeJS v18+
+Deno v2+
 
 ## How to setup
 
