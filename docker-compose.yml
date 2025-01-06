@@ -1,0 +1,7 @@
+services:
+  bonbon-reminder:
+    image: "ghcr.io/wissididom/spotify-discord-show-episodes-webhook"
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+    env_file: .env
