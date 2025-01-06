@@ -2,6 +2,11 @@ services:
   spotify-discord-show-episodes-webhook:
     image: "ghcr.io/wissididom/spotify-discord-show-episodes-webhook"
     restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /home/dominik/AI-Discord-Show-Episodes-Webhook/lastCheckedId
+        target: /app/lastCheckedId
+        read_only: true
     environment:
       NODE_ENV: production
     env_file: .env
