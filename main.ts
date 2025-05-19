@@ -102,7 +102,6 @@ if (import.meta.main) {
       await checkForNewEpisodes();
     },
     {
-      scheduled: true,
       timezone: Deno.env.get("SPOTIFY_CRON_TIMEZONE"),
     },
   );
