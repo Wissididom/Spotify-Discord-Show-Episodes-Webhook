@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "npm:discord.js@^14.19.3": "14.19.3",
-    "npm:node-cron@^4.0.5": "4.0.5"
+    "npm:node-cron@^4.0.7": "4.0.7"
   },
   "npm": {
     "@discordjs/builders@1.11.2": {
@@ -121,8 +121,8 @@
     "magic-bytes.js@1.12.1": {
       "integrity": "sha512-ThQLOhN86ZkJ7qemtVRGYM+gRgR8GEXNli9H/PMvpnZsE44Xfh3wx9kGJaldg314v85m+bFW6WBMaVHJc/c3zA=="
     },
-    "node-cron@4.0.5": {
-      "integrity": "sha512-XN5PwNBniFz6y9Ic/VChtrBtlXfAqdKUFou7nid/1pLGNFKO7cXN1nmLKUL7KLnM/Y4nUe5/EC+GsAghCj/N5g=="
+    "node-cron@4.0.7": {
+      "integrity": "sha512-A37UUDpxRT/kWanELr/oMayCWQFk9Zx9BEUoXrAKuKwKzH4XuAX+vMixMBPkgZBkADgJwXv91w5cMRTNSVP/mA=="
     },
     "ts-mixer@6.0.4": {
       "integrity": "sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA=="
@@ -143,7 +143,7 @@
   "workspace": {
     "dependencies": [
       "npm:discord.js@^14.19.3",
-      "npm:node-cron@^4.0.5"
+      "npm:node-cron@^4.0.7"
     ]
   }
 }

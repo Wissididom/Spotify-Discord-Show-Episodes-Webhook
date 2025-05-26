@@ -4,6 +4,6 @@
   },
   "imports": {
     "discord.js": "npm:discord.js@^14.19.3",
-    "node-cron": "npm:node-cron@^4.0.5"
+    "node-cron": "npm:node-cron@^4.0.7"
   }
 }
