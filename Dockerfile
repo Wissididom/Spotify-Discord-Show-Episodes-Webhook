@@ -1,4 +1,4 @@
-FROM denoland/deno:2.3.5
+FROM denoland/deno:2.3.6
 WORKDIR /app
 COPY . .
 RUN deno install
