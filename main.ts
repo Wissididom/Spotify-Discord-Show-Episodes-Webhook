@@ -1,5 +1,4 @@
 import { Buffer } from "node:buffer";
-import { WebhookClient } from "discord.js";
 import { schedule } from "node-cron";
 
 async function fileExists(path: string) {
@@ -74,22 +73,28 @@ async function checkForNewEpisodes() {
   const webhookUrls = Deno.env.get("DISCORD_WEBHOOK_URLS")!.split(",");
   const pingEveryones = Deno.env.get("PING_EVERYONE")!.split(",");
   for (let i = 0; i < webhookUrls.length; i++) {
-    const client = new WebhookClient({
-      url: webhookUrls[i],
-    });
+    let discordPayload;
     if (pingEveryones[i].toLowerCase() == "true") {
-      client.send({
+      discordPayload = {
         content: `@everyone\n\n${showEpisodes.items[0].name}\n\n${
           showEpisodes.items[0].description
         }\n\n${showEpisodes.items[0].external_urls.spotify}`,
-      });
+      };
     } else {
-      client.send({
+      discordPayload = {
         content: `${showEpisodes.items[0].name}\n\n${
           showEpisodes.items[0].description
         }\n\n${showEpisodes.items[0].external_urls.spotify}`,
-      });
+      };
     }
+    const discordResponse = await fetch(`${webhookUrls[i]}?wait=true`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(discordPayload),
+    }).then((res) => res.text());
+    console.log(discordResponse);
   }
   await Deno.writeTextFile("./lastCheckedId", showEpisodes.items[0].id);
 }
