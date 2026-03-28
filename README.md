@@ -3,8 +3,8 @@
 ## Archived
 
 This project is now archived, because my current use case doesn't post new
-episodes anymore and also, I don't want to pay for a spotify premium account just
-to be able to run the tool. I also now deleted my Spotify account so it's
+episodes anymore and also, I don't want to pay for a spotify premium account
+just to be able to run the tool. I also now deleted my Spotify account so it's
 unlikely that I will ever continue working on this project.
 
 ## Prerequisites
