@@ -17,3 +17,9 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 7
+  - package-ecosystem: "deno" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 7
