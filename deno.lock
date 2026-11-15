@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "npm:@types/node@*": "24.2.0",
-    "npm:node-cron@^4.2.1": "4.2.1"
+    "npm:node-cron@^4.6.0": "4.6.0"
   },
   "npm": {
     "@types/node@24.2.0": {
@@ -11,8 +11,8 @@
         "undici-types"
       ]
     },
-    "node-cron@4.2.1": {
-      "integrity": "sha512-lgimEHPE/QDgFlywTd8yTR61ptugX3Qer29efeyWw2rv259HtGBNn1vZVmp8lB9uo9wC0t/AT4iGqXxia+CJFg=="
+    "node-cron@4.6.0": {
+      "integrity": "sha512-Si/bzYiKRHOB8/a99T2+SDGN582ONDMSTlJr5oCkT6GtnqPjZ2s10eoQRYkW9ZHwjVxONL+W8Fb+qR0AHMQsdg=="
     },
     "undici-types@7.10.0": {
       "integrity": "sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag=="
@@ -20,7 +20,7 @@
   },
   "workspace": {
     "dependencies": [
-      "npm:node-cron@^4.2.1"
+      "npm:node-cron@^4.6.0"
     ]
   }
 }
